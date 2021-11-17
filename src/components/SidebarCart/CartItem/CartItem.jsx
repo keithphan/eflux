@@ -58,7 +58,7 @@ function CartItem({product, addToCart, removeFromCart, updateCart, deleteFromCar
                     </div>
                     <div className="col-6">
                         <div className="product-price">
-                            <del>${(product.origin_price  * product.qty).toFixed(2)}</del><span className="ml-4">${ (product.price * product.qty).toFixed(2) }</span>
+                            <del>{ product.origin_price ? "$" + product.origin_price * product.qty : "" }</del><span className="ml-4">${ (product.price * product.qty) }</span>
                         </div>
                     </div>
                 </div>

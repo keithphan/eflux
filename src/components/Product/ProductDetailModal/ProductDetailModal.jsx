@@ -69,22 +69,18 @@ function ProductDetailModal({ product, cartItem, addToCart, removeFromCart, upda
                                     asNavFor={nav2}
                                     ref={(slider) => setNav1(slider)}
                                     >
-                                    <div>
-                                        <img width="100%" src="https://cdn0.woolworths.media/content/wowproductimages/medium/105919.jpg" alt=""
-                                                className="img-fluid blur-up lazyload"/>
-                                    </div>
-                                    <div>
-                                        <img width="100%" src="https://cdn0.woolworths.media/content/wowproductimages/medium/133211.jpg" alt=""
-                                                className="img-fluid blur-up lazyload"/>
-                                    </div>
-                                    <div>
-                                        <img width="100%" src="https://cdn0.woolworths.media/content/wowproductimages/medium/259450.jpg" alt=""
-                                                className="img-fluid blur-up lazyload"/>
-                                    </div>
-                                    <div>
-                                        <img width="100%" src="https://cdn0.woolworths.media/content/wowproductimages/medium/145259.jpg" alt=""
-                                            className="img-fluid blur-up lazyload"/>
-                                    </div>
+                                    {
+                                        product.gallery ?
+                                        product.gallery.split('|').map((imgUrl, index) => {
+                                            return (
+                                                <div key={index}>
+                                                    <img width="100%" src={imgUrl} alt={ product.title }
+                                                        className="img-fluid blur-up lazyload"/>
+                                                </div>
+                                            )
+                                        })
+                                        : <></>
+                                    }
                                 </Slider>
 
                                 <div className="row">
@@ -92,7 +88,7 @@ function ProductDetailModal({ product, cartItem, addToCart, removeFromCart, upda
                                         <Slider 
                                             className='slider-nav' 
                                             vertical={false} 
-                                            slidesToShow={4} 
+                                            slidesToShow={product.gallery ? product.gallery.split('|').length : 1} 
                                             slidesToScroll={1} 
                                             centerMode={true} 
                                             arrows={true} 
@@ -100,23 +96,21 @@ function ProductDetailModal({ product, cartItem, addToCart, removeFromCart, upda
                                             focusOnSelect={true}
                                             ref={(slider) => setNav2(slider)}
                                             asNavFor={nav1}
+                                            variableWidth={true} 
                                         >
-                                            <div>
-                                                <img width="100%" src="https://cdn0.woolworths.media/content/wowproductimages/medium/105919.jpg" alt=""
+                                            {
+                                        product.gallery ?
+                                        product.gallery.split('|').map((imgUrl, index) => {
+                                            return (
+                                                <div key={index} style={{ width: 100 }}>
+                                                    <img width="100%" src={imgUrl} alt={ product.title }
                                                         className="img-fluid blur-up lazyload"/>
-                                            </div>
-                                            <div>
-                                                <img width="100%" src="https://cdn0.woolworths.media/content/wowproductimages/medium/133211.jpg" alt=""
-                                                        className="img-fluid blur-up lazyload"/>
-                                            </div>
-                                            <div>
-                                                <img width="100%" src="https://cdn0.woolworths.media/content/wowproductimages/medium/259450.jpg" alt=""
-                                                        className="img-fluid blur-up lazyload"/>
-                                            </div>
-                                            <div>
-                                                <img width="100%" src="https://cdn0.woolworths.media/content/wowproductimages/medium/145259.jpg" alt=""
-                                                    className="img-fluid blur-up lazyload"/>
-                                            </div>
+                                                </div>
+                                            )
+                                        })
+                                        : <></>
+                                    }
+
                                         </Slider>
                                     </div>
                                 </div>
@@ -130,7 +124,7 @@ function ProductDetailModal({ product, cartItem, addToCart, removeFromCart, upda
                                 <a href="abc.html" className="cata">Catagory</a>
                                 <h2>{ product.title }</h2>
                                 <p className="quantity">{ product.weight }</p>
-                                <h3 className="price">${ product.price.toFixed(2) } <del>${ product.origin_price.toFixed(2) }</del></h3>
+                                <h3 className="price">${ product.price } <del>{ product.origin_price > 0 ? '$' + product.origin_price : "" }</del></h3>
                                 
                                 <p>{ product.description }</p>
                                 <div className="d-flex justify-content-end" >

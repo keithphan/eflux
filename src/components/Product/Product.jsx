@@ -39,13 +39,13 @@ function Product({ product, setSelectedProduct, addToCart, removeFromCart, updat
                 </a>
             </div>
             <div className="product-content">
-                <a href="abc.html" className="cata">Catagory</a>
+                <a href={ '/shop/browse/' + product.category.slug } className="cata">{ product.category.name }</a>
                 <h6>
                     <Link to={`/shop/productdetails/${product.id}/${product.title.toLowerCase()}`} className="product-title">{ product.title }</Link>
                 </h6>
                 <p className="quantity">{ product.weight }</p>
                 <div className="d-flex justify-content-between align-items-center">
-                    <div className="price">${ product.price.toFixed(2) } <del>${ product.origin_price.toFixed(2) } </del></div>
+                    <div className="price">${ product.price } <del>{ product.origin_price ? "$" + product.origin_price : "" }</del></div>
 
                     <div className="cart-btn-toggle">
                         {cartItem ? 

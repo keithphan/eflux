@@ -1,20 +1,24 @@
-import React, {useEffect} from 'react'
+import axios from 'axios';
+import React, {useEffect, useState} from 'react'
 import { useParams } from 'react-router'
-import { Redirect } from 'react-router';
 import ProductZoom from './ProductZoom/ProductZoom'
 
-function ProductDetail({ trending_products, cartItems, addToCart, removeFromCart, updateCart }) {
+function ProductDetail({ cartItems, addToCart, removeFromCart, updateCart }) {
     const { productId } = useParams();
-    const product = trending_products.find((item) => item.id === parseInt(productId))
-
+    const api_url = process.env.REACT_APP_API_URL + process.env.REACT_APP_API_ID
+    const [ product, setProduct ] = useState({});
+    
     useEffect(() => {
-
-    })
+        axios.post(api_url + '/product/' + productId)
+        .then((response) => {
+            setProduct(response.data.data)
+            
+        }).catch(() => {
+            window.location.replace("/resourcenotfound")
+        })
+    }, [api_url, productId])
 
     return (
-        <>
-        {
-            product ?
             <>
                 <ProductZoom 
                     product={product} 
@@ -213,11 +217,6 @@ function ProductDetail({ trending_products, cartItems, addToCart, removeFromCart
                         </div>
                     </div>
                 </section>
-            </>
-            :
-            <Redirect to="/resourcenotfound" />
-        }
-            
         </>
     )
 }

@@ -4,10 +4,10 @@ import axios from 'axios';
 
 function Sidebar() {
     const [categories, setCategories] = useState([])
-    const api_url = process.env.REACT_APP_API_URL
+    const api_url = process.env.REACT_APP_API_URL + process.env.REACT_APP_API_ID
     
     useEffect(() => {
-        axios.get(api_url + 'categories')
+        axios.post(api_url + '/categories')
         .then((response) => {
             setCategories(response.data.data)
         })
@@ -27,7 +27,7 @@ function Sidebar() {
                                             {
                                                 category.descendants.map((subCategory) => {
                                                     return(
-                                                        <li key={subCategory.id}><Link to='/'>{subCategory.name}</Link></li>
+                                                        <li key={subCategory.id}><Link to={ '/shop/browse/' + subCategory.slug }>{subCategory.name}</Link></li>
                                                     )                                                  
                                                 })
                                             }

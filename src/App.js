@@ -27,172 +27,9 @@ import About from "./components/Pages/About/About";
 import Faq from "./components/Pages/Faq/Faq";
 import Blogs from "./components/Pages/Blogs/Blogs";
 import CheckOut from "./components/Pages/CheckOut/CheckOut";
+import ProductList from "./components/Pages/ProductList/ProductList";
+import axios from 'axios';
 
-const trending_products = [
-  {
-    id: 1,
-    title: "Apple",
-    weight: "1kg",
-    price: 8,
-    origin_price: 10,
-    description: "Apple",
-    image:
-      "https://cdn0.woolworths.media/content/wowproductimages/medium/105919.jpg",
-  },
-  {
-    id: 2,
-    title: "Banana",
-    weight: "2kg",
-    price: 7,
-    origin_price: 9,
-    description: "Banana",
-    image:
-      "https://cdn0.woolworths.media/content/wowproductimages/medium/133211.jpg",
-  },
-  {
-    id: 3,
-    title: "Orange",
-    weight: "1kg",
-    price: 8,
-    origin_price: 10,
-    description: "Orange",
-    image:
-      "https://cdn0.woolworths.media/content/wowproductimages/medium/259450.jpg",
-  },
-  {
-    id: 4,
-    title: "Pear",
-    weight: "2kg",
-    price: 7,
-    origin_price: 9,
-    description: "Pear",
-    image:
-      "https://cdn0.woolworths.media/content/wowproductimages/medium/145259.jpg",
-  },
-  {
-    id: 5,
-    title: "Coconut",
-    weight: "1kg",
-    price: 8,
-    origin_price: 10,
-    description: "Apple",
-    image:
-      "https://cdn0.woolworths.media/content/wowproductimages/medium/136981.jpg",
-  },
-  {
-    id: 6,
-    title: "Durian",
-    weight: "2kg",
-    price: 7,
-    origin_price: 9,
-    description: "Banana",
-    image:
-      "https://cdn0.woolworths.media/content/wowproductimages/medium/105919.jpg",
-  },
-  {
-    id: 7,
-    title: "Grapes",
-    weight: "1kg",
-    price: 8,
-    origin_price: 10,
-    description: "Orange",
-    image:
-      "https://cdn0.woolworths.media/content/wowproductimages/medium/138801.jpg",
-  },
-  {
-    id: 8,
-    title: "Jackfruit",
-    weight: "2kg",
-    price: 7,
-    origin_price: 9,
-    description: "Pearl",
-    image:
-      "https://cdn0.woolworths.media/content/wowproductimages/medium/105919.jpg",
-  },
-];
-
-const promoted_products = [
-  {
-    id: 9,
-    title: "Watermelon",
-    weight: "1kg",
-    price: 8,
-    origin_price: 10,
-    description: "Apple",
-    image:
-      "https://cdn0.woolworths.media/content/wowproductimages/medium/120384.jpg",
-  },
-  {
-    id: 10,
-    title: "Mango",
-    weight: "2kg",
-    price: 7,
-    origin_price: 9,
-    description: "Banana",
-    image:
-      "https://cdn0.woolworths.media/content/wowproductimages/medium/132600.jpg",
-  },
-  {
-    id: 11,
-    title: "Avocado",
-    weight: "1kg",
-    price: 8,
-    origin_price: 10,
-    description: "Orange",
-    image:
-      "https://cdn0.woolworths.media/content/wowproductimages/medium/120080.jpg",
-  },
-  {
-    id: 12,
-    title: "Cherry",
-    weight: "2kg",
-    price: 7,
-    origin_price: 9,
-    description: "Pear",
-    image:
-      "https://cdn0.woolworths.media/content/wowproductimages/medium/133109.jpg",
-  },
-  {
-    id: 13,
-    title: "Lemon",
-    weight: "1kg",
-    price: 8,
-    origin_price: 10,
-    description: "Apple",
-    image:
-      "https://cdn0.woolworths.media/content/wowproductimages/medium/259514.jpg",
-  },
-  {
-    id: 14,
-    title: "Longan",
-    weight: "2kg",
-    price: 7,
-    origin_price: 9,
-    description: "Banana",
-    image:
-      "https://cdn0.woolworths.media/content/wowproductimages/medium/165848.jpg",
-  },
-  {
-    id: 15,
-    title: "Mandarin",
-    weight: "1kg",
-    price: 8,
-    origin_price: 10,
-    description: "Orange",
-    image:
-      "https://cdn0.woolworths.media/content/wowproductimages/medium/314075.jpg",
-  },
-  {
-    id: 16,
-    title: "Pumelo",
-    weight: "2kg",
-    price: 7,
-    origin_price: 9,
-    description: "Pear",
-    image:
-      "https://cdn0.woolworths.media/content/wowproductimages/medium/105919.jpg",
-  },
-];
 
 const cartFromLocalStorage = JSON.parse(localStorage.getItem('cart')) ? JSON.parse(localStorage.getItem('cart')) : [];
 
@@ -206,6 +43,10 @@ function App() {
     description: "",
     image: "",
   });
+  const [featuredProducts, setfeaturedProducts] = useState([])
+  const [onSaleProducts, setOnSaleProducts] = useState([])
+  const api_url = process.env.REACT_APP_API_URL + process.env.REACT_APP_API_ID
+
   const [cartItems, setCartItems] = useState(cartFromLocalStorage);
   const itemsPrice = cartItems.reduce((a, c) => a + c.qty * c.price, 0);
   const itemsSavingPrice =
@@ -218,6 +59,14 @@ function App() {
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cartItems))
   }, [cartItems])
+
+  useEffect(() => {
+    axios.post(api_url + '/onSaleProducts')
+    .then((response) => {
+      setfeaturedProducts(response.data.data)
+      setOnSaleProducts(response.data.data)
+    })
+  }, [api_url])
 
   const addToCart = (product, qty = 1) => {
     const exist = cartItems.find((x) => x.id === product.id);
@@ -296,8 +145,8 @@ function App() {
             <Switch>
               <Route exact path="/">
                 <Home
-                  trending_products={trending_products}
-                  promoted_products={promoted_products}
+                  trending_products={featuredProducts}
+                  promoted_products={onSaleProducts}
                   setSelectedProduct={setSelectedProduct}
                   cartItems={cartItems}
                   addToCart={addToCart}
@@ -346,9 +195,18 @@ function App() {
                 <About />
               </Route>
 
+              <Route path="/shop/browse/:category">
+                <ProductList 
+                  setSelectedProduct={setSelectedProduct}
+                  cartItems={cartItems}
+                  addToCart={addToCart}
+                  removeFromCart={removeFromCart}
+                  updateCart={updateCart}
+                />
+              </Route>
+
               <Route path="/shop/productdetails/:productId/:productName">
                 <ProductDetail
-                  trending_products={trending_products}
                   cartItems={cartItems}
                   addToCart={addToCart}
                   removeFromCart={removeFromCart}
