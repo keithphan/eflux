@@ -4,10 +4,10 @@ import axios from 'axios';
 
 function Sidebar() {
     const [categories, setCategories] = useState([])
-    const api_url = process.env.REACT_APP_API_URL + process.env.REACT_APP_API_ID
+    const api_url = process.env.REACT_APP_API_URL
     
     useEffect(() => {
-        axios.post(api_url + '/categories')
+        axios.post(api_url + 'categories', {companyId: process.env.REACT_APP_API_ID})
         .then((response) => {
             setCategories(response.data.data)
         })

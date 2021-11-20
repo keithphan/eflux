@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import $ from 'jquery'
 import Slider from "react-slick";
+import { Link } from 'react-router-dom';
 
 function ProductDetailModal({ product, cartItem, addToCart, removeFromCart, updateCart, }) {
     const [nav1, setNav1] = useState();
@@ -99,17 +100,17 @@ function ProductDetailModal({ product, cartItem, addToCart, removeFromCart, upda
                                             variableWidth={true} 
                                         >
                                             {
-                                        product.gallery ?
-                                        product.gallery.split('|').map((imgUrl, index) => {
-                                            return (
-                                                <div key={index} style={{ width: 100 }}>
-                                                    <img width="100%" src={imgUrl} alt={ product.title }
-                                                        className="img-fluid blur-up lazyload"/>
-                                                </div>
-                                            )
-                                        })
-                                        : <></>
-                                    }
+                                                product.gallery ?
+                                                product.gallery.split('|').map((imgUrl, index) => {
+                                                    return (
+                                                        <div key={index} style={{ width: 100 }}>
+                                                            <img width="100%" src={imgUrl} alt={ product.title }
+                                                                className="img-fluid blur-up lazyload"/>
+                                                        </div>
+                                                    )
+                                                })
+                                                : <></>
+                                            }
 
                                         </Slider>
                                     </div>
@@ -121,7 +122,7 @@ function ProductDetailModal({ product, cartItem, addToCart, removeFromCart, upda
                                 <a className="wish-link" href="abc.html">
                                     <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="heart" className="svg-inline--fa fa-heart fa-w-16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"></path></svg>
                                 </a>
-                                <a href="abc.html" className="cata">Catagory</a>
+                                <Link to={`/shop/browse/${product.category.slug}`} className="cata" onClick={() => handleCloseModal()}>{ product.category.name }</Link>
                                 <h2>{ product.title }</h2>
                                 <p className="quantity">{ product.weight }</p>
                                 <h3 className="price">${ product.price } <del>{ product.origin_price > 0 ? '$' + product.origin_price : "" }</del></h3>

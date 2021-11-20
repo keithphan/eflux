@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react'
 import {Link, NavLink} from 'react-router-dom'
 import $ from 'jquery';
+import axios from 'axios';
 
-function Header({ cartItems, itemsPrice }) {
+function Header({ cartItems, itemsPrice, token , setUser, setToken}) {
     useEffect(() => {
         window.customSelect();
     }, []);
@@ -11,6 +12,22 @@ function Header({ cartItems, itemsPrice }) {
         e.preventDefault();
         $('#sitebar-cart').addClass('open-cart');
         $('#sitebar-drawar').addClass('hide-drawer');
+    }
+
+    const handleSignOut = (e) => {
+        e.preventDefault();
+        const api_url = process.env.REACT_APP_API_URL
+
+        axios.delete(api_url + 'logout', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then((respone) => {
+            if(respone.data.status === 'success'){
+                sessionStorage.removeItem('token')
+                setToken("")
+            }
+        })
     }
 
     return (
@@ -72,17 +89,22 @@ function Header({ cartItems, itemsPrice }) {
                             <li className="wish-list">
                                 <Link to="/"><i className="fas fa-heart"></i> <span className="count">04</span></Link>
                             </li>
-                            <li className="my-account d-none"><a className="dropdown-toggle" href="/" role="button" id="myaccount" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i className="fas fa-user mr-1"></i> My Account</a>
-                                <ul className="submenu dropdown-menu" aria-labelledby="myaccount">
-                                    <li>
-                                        <Link to="/">Profile</Link>
+                            {
+                                token ?
+                                    <li className="my-account"><a className="dropdown-toggle" href="/" role="button" id="myaccount" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i className="fas fa-user mr-1"></i> My Account</a>
+                                        <ul className="submenu dropdown-menu" aria-labelledby="myaccount">
+                                            <li>
+                                                <Link to="/profile">Profile</Link>
+                                            </li>
+                                            <li>
+                                                <a onClick={handleSignOut} >Sign Out</a>
+                                            </li>
+                                        </ul>
                                     </li>
-                                    <li>
-                                        <Link to="/">Sign Out</Link>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li className="signin-option"><Link to="/signin"><i className="fas fa-user mr-2"></i>Sign In</Link></li>
+                                :
+                                    <li className="signin-option"><Link to="/signin"><i className="fas fa-user mr-2"></i>Sign In</Link></li>
+                            }
+                            
                         </ul>
                     </div>
 

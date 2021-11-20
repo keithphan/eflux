@@ -1,23 +1,24 @@
+import React, {useState, useEffect} from 'react'
 import axios from 'axios';
-import React, {useEffect, useState} from 'react'
 import { useParams } from 'react-router'
 import ProductZoom from './ProductZoom/ProductZoom'
 
 function ProductDetail({ cartItems, addToCart, removeFromCart, updateCart }) {
+    const [ product, setProduct ] = useState();
     const { productId } = useParams();
-    const api_url = process.env.REACT_APP_API_URL + process.env.REACT_APP_API_ID
-    const [ product, setProduct ] = useState({});
     
     useEffect(() => {
-        axios.post(api_url + '/product/' + productId)
-        .then((response) => {
-            setProduct(response.data.data)
-            
-        }).catch(() => {
-            window.location.replace("/resourcenotfound")
+        const api_url = process.env.REACT_APP_API_URL
+        
+        axios.post(api_url + 'product', {
+            companyId: process.env.REACT_APP_API_ID,
+            productId: productId,
         })
-    }, [api_url, productId])
-
+        .then(function(response){
+            setProduct(response.data.data)
+        })
+    }, [productId])
+    
     return (
             <>
                 <ProductZoom 
@@ -217,7 +218,7 @@ function ProductDetail({ cartItems, addToCart, removeFromCart, updateCart }) {
                         </div>
                     </div>
                 </section>
-        </>
+            </>
     )
 }
 

@@ -29,11 +29,15 @@ import Blogs from "./components/Pages/Blogs/Blogs";
 import CheckOut from "./components/Pages/CheckOut/CheckOut";
 import ProductList from "./components/Pages/ProductList/ProductList";
 import axios from 'axios';
+import Profile from "./components/Pages/Profile/Profile";
 
 
-const cartFromLocalStorage = JSON.parse(localStorage.getItem('cart')) ? JSON.parse(localStorage.getItem('cart')) : [];
+const cartFromLocalStorage = JSON.parse(localStorage.getItem('cart')) ? JSON.parse(localStorage.getItem('cart')) : {};
+const tokenFromSessionStorage = sessionStorage.getItem('token') ? sessionStorage.getItem('token') : "";
 
 function App() {
+  const [token, setToken] = useState(tokenFromSessionStorage)
+
   const [selectedProduct, setSelectedProduct] = useState({
     id: "",
     title: "",
@@ -42,10 +46,10 @@ function App() {
     origin_price: 0,
     description: "",
     image: "",
+    category: "",
   });
   const [featuredProducts, setfeaturedProducts] = useState([])
   const [onSaleProducts, setOnSaleProducts] = useState([])
-  const api_url = process.env.REACT_APP_API_URL + process.env.REACT_APP_API_ID
 
   const [cartItems, setCartItems] = useState(cartFromLocalStorage);
   const itemsPrice = cartItems.reduce((a, c) => a + c.qty * c.price, 0);
@@ -61,12 +65,13 @@ function App() {
   }, [cartItems])
 
   useEffect(() => {
-    axios.post(api_url + '/onSaleProducts')
+    const api_url = process.env.REACT_APP_API_URL
+    axios.post(api_url + 'onSaleProducts', {companyId: process.env.REACT_APP_API_ID})
     .then((response) => {
       setfeaturedProducts(response.data.data)
       setOnSaleProducts(response.data.data)
     })
-  }, [api_url])
+  }, [])
 
   const addToCart = (product, qty = 1) => {
     const exist = cartItems.find((x) => x.id === product.id);
@@ -138,7 +143,7 @@ function App() {
           itemsPrice={itemsPrice}
           itemsSavingPrice={itemsSavingPrice}
         />
-        <Header cartItems={cartItems} itemsPrice={itemsPrice} />
+        <Header cartItems={cartItems} itemsPrice={itemsPrice} token={token} setToken={setToken}/>
         <div className="page-layout home-layout">
           <Sidebar />
           <ContentArea>
@@ -156,11 +161,28 @@ function App() {
               </Route>
 
               <Route path="/signin">
-                <SignIn />
+                {token ?
+                  <Redirect to='/' />
+                :
+                  <SignIn />
+                }
+                
               </Route>
 
               <Route path="/signup">
-                <SignUp />
+                {token ?
+                  <Redirect to='/' />
+                :
+                  <SignUp />
+                }
+              </Route>
+
+              <Route path="/profile">
+                {token ?
+                    <Profile token={token} />
+                  :
+                    <SignIn />
+                  }
               </Route>
 
               <Route path="/faq">

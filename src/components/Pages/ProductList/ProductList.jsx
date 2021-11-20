@@ -6,16 +6,16 @@ import Product from '../../Product/Product';
 function ProductList({setSelectedProduct, cartItems, addToCart, removeFromCart, updateCart}) {
     const [categories, setCategories] = useState([])
     const [products, setProducts] = useState([])
-    const api_url = process.env.REACT_APP_API_URL + process.env.REACT_APP_API_ID
+    const api_url = process.env.REACT_APP_API_URL
     const { category } = useParams();
 
     useEffect(() => {
-        axios.post(api_url + '/categories')
+        axios.post(api_url + 'categories', {companyId: process.env.REACT_APP_API_ID})
         .then((response) => {
             setCategories(response.data.data)
         })
 
-        axios.post(api_url + '/products/' + category)
+        axios.post(api_url + 'products', {companyId: process.env.REACT_APP_API_ID, category: category})
         .then((response) => {
             setProducts(response.data.data)
         })

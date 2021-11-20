@@ -39,7 +39,7 @@ function Product({ product, setSelectedProduct, addToCart, removeFromCart, updat
                 </a>
             </div>
             <div className="product-content">
-                <a href={ '/shop/browse/' + product.category.slug } className="cata">{ product.category.name }</a>
+                <Link to={`/shop/browse/${product.category.slug}`} className="cata">{ product.category.name }</Link>
                 <h6>
                     <Link to={`/shop/productdetails/${product.id}/${product.title.toLowerCase()}`} className="product-title">{ product.title }</Link>
                 </h6>
