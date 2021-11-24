@@ -124,6 +124,21 @@ function App() {
     }
   };
 
+  const signOut = () => {
+    const api_url = process.env.REACT_APP_API_URL
+
+    axios.delete(api_url + 'logout', {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }).then((respone) => {
+        if(respone.data.status === 'success'){
+            sessionStorage.removeItem('token')
+            setToken("")
+        }
+    })
+  }
+
   return (
     <Router>
       <div className="App">
@@ -143,7 +158,7 @@ function App() {
           itemsPrice={itemsPrice}
           itemsSavingPrice={itemsSavingPrice}
         />
-        <Header cartItems={cartItems} itemsPrice={itemsPrice} token={token} setToken={setToken}/>
+        <Header cartItems={cartItems} itemsPrice={itemsPrice} token={token} signOut={signOut} />
         <div className="page-layout home-layout">
           <Sidebar />
           <ContentArea>
@@ -179,7 +194,7 @@ function App() {
 
               <Route path="/profile">
                 {token ?
-                    <Profile token={token} />
+                    <Profile token={token} signOut={signOut} />
                   :
                     <SignIn />
                   }

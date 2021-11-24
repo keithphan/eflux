@@ -5344,6 +5344,7 @@ blockquote span span {
   border: none;
   outline: none;
   line-height: 1;
+  margin-right: 5px;
 }
 .address-edit-box .address-form .cancel {
   background-color: #222222;
@@ -6856,11 +6857,11 @@ blockquote span span {
   background-color: #f9f9f9;
   color: inherit;
 }
-.right-nav-menu li.active a {
+.right-nav-menu li a.active {
   background-color: #59b828;
   color: white;
 }
-.right-nav-menu li.active a .icon svg {
+.right-nav-menu li a.active .icon svg {
   fill: white;
 }
 

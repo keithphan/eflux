@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react'
 import {Link, NavLink} from 'react-router-dom'
 import $ from 'jquery';
-import axios from 'axios';
 
-function Header({ cartItems, itemsPrice, token , setUser, setToken}) {
+function Header({ cartItems, itemsPrice, token, signOut}) {
     useEffect(() => {
         window.customSelect();
     }, []);
@@ -16,18 +15,7 @@ function Header({ cartItems, itemsPrice, token , setUser, setToken}) {
 
     const handleSignOut = (e) => {
         e.preventDefault();
-        const api_url = process.env.REACT_APP_API_URL
-
-        axios.delete(api_url + 'logout', {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        }).then((respone) => {
-            if(respone.data.status === 'success'){
-                sessionStorage.removeItem('token')
-                setToken("")
-            }
-        })
+        signOut();
     }
 
     return (
@@ -59,7 +47,7 @@ function Header({ cartItems, itemsPrice, token , setUser, setToken}) {
                     <div className="col-5 col-md-9 col-lg-5">
                     
                         <div className="select-search-option d-none d-md-flex">
-                            <div className="flux-custom-select">
+                            <div className="flux-custom-select search-custom-select">
                                 <select>
                                     <option value="0">Select Catagory</option>
                                     <option value="1">Vegetables</option>
@@ -97,7 +85,7 @@ function Header({ cartItems, itemsPrice, token , setUser, setToken}) {
                                                 <Link to="/profile">Profile</Link>
                                             </li>
                                             <li>
-                                                <a onClick={handleSignOut} >Sign Out</a>
+                                                <a href="!#" onClick={handleSignOut} >Sign Out</a>
                                             </li>
                                         </ul>
                                     </li>
