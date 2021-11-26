@@ -59,11 +59,11 @@ function Profile({token, signOut}) {
                         <Switch>
                             
                             <Route path="/profile" exact >
-                                <Account user={user} token={token} />
+                                <Account user={user} token={token} setUser={setUser} />
                             </Route>
 
                             <Route path="/profile/address-book">
-                                <AddressBook addresses={addresses} />
+                                <AddressBook addresses={addresses} setAddresses={setAddresses} token={token}/>
                             </Route>
 
                             <Route path="/profile/password">

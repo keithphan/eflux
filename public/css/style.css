@@ -7125,3 +7125,10 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+.state-custom-select{
+  width: 100%;
+  padding: 10.72px 25px;
+  border: 1px solid #f3f3f3;
+  border-radius: 3px;
+}

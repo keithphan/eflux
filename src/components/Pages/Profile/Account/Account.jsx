@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 
-function Account({ token, user }) {
+function Account({ token, user, setUser }) {
     const [data, setData] = useState({});
     const [errors, setErrors] = useState({});
 
@@ -25,13 +25,15 @@ function Account({ token, user }) {
         const api_url = process.env.REACT_APP_API_URL
 
         axios.post(api_url + "updateInfo", {
-            customer: data
+            customer: data,
+            companyId: process.env.REACT_APP_API_ID,
         }, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         }).then((response) => {
             setErrors({})
+            setUser(response.data.data)
             alert("Updated successfully");
         }).catch((error) => {
             setErrors(error.response.data.errors)

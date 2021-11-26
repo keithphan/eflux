@@ -1,11 +1,18 @@
-import React, { useEffect } from 'react'
+import React, { useState } from 'react'
 import AddAddressModal from './AddAddressModal/AddAddressModal'
+import { Address } from './Address/Address';
 import EditAddressModal from './EditAddressModal/EditAddressModal'
 
-function AddressBook({ addresses }) {
-    useEffect(() => {
-        window.stateCustomSelect();
-    }, [])
+function AddressBook({ addresses, setAddresses, token }) {
+    const [selectedAddress, setSelectedAddress] = useState({
+        name: "",
+        address: "",
+        suburb: "",
+        zip: "",
+        state: "",
+        country: "",
+    });
+
     return (
         <>
             <div className="col-lg-9">
@@ -17,17 +24,13 @@ function AddressBook({ addresses }) {
                                 addresses.addresses ?
                                 addresses.addresses.map((address, index) => {
                                     return (
-                                    <li className="active" key={index}>
-                                        <span className="icon"><i className="fas fa-check-circle"></i></span>
-                                        <div className="address-text">
-                                            <h6>Office</h6>
-                                            <p className="address">{ address }</p>
-                                        </div> 
-                                        <div className="edit-delete-btn">
-                                            <button className="edit" type="button" data-toggle="modal" data-target="#address-edit"><i className="fas fa-edit"></i></button>
-                                            <button className="delete"><i className="fas fa-trash-alt"></i></button>
-                                        </div>   
-                                    </li>
+                                        <Address 
+                                            address={address} 
+                                            setSelectedAddress={setSelectedAddress} 
+                                            key={index}
+                                            index={index} 
+                                            isActive={ addresses.default === index }
+                                        />
                                     )
                                 })
                                     
@@ -41,7 +44,8 @@ function AddressBook({ addresses }) {
                     </div>
                 </div>
             </div>
-            <EditAddressModal />
+
+            <EditAddressModal selectedAddress={selectedAddress} setAddresses={setAddresses} token={token}/>
             <AddAddressModal />
         </>
     )
