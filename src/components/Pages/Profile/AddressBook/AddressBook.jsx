@@ -30,6 +30,8 @@ function AddressBook({ addresses, setAddresses, token }) {
                                             key={index}
                                             index={index} 
                                             isActive={ addresses.default === index }
+                                            token={token}
+                                            setAddresses={setAddresses}
                                         />
                                     )
                                 })
@@ -46,7 +48,7 @@ function AddressBook({ addresses, setAddresses, token }) {
             </div>
 
             <EditAddressModal selectedAddress={selectedAddress} setAddresses={setAddresses} token={token}/>
-            <AddAddressModal />
+            <AddAddressModal setAddresses={setAddresses} token={token}/>
         </>
     )
 }

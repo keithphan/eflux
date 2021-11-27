@@ -5123,6 +5123,7 @@ blockquote span span {
   width: 40px;
   font-size: 18px;
   color: #efefef;
+  cursor: pointer;
 }
 .dashboard-body .profile-address-book .address-list li .address-text {
   width: calc(100% - 40px);
