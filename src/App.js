@@ -197,7 +197,7 @@ function App() {
                 {token ?
                     <Profile token={token} signOut={signOut} />
                   :
-                    <SignIn />
+                    <SignIn setToken={setToken}/>
                   }
               </Route>
 
