@@ -16,95 +16,97 @@ function SignUp({setToken}) {
         }));
     };
 
-    const handleValidation = () => {
-        let fields = data;
-        let formIsValid = true;
-        let errors = {};
+    // const handleValidation = () => {
+    //     let fields = data;
+    //     let formIsValid = true;
+    //     let errors = {};
 
-        // First name
-        if (!fields["firstname"]) {
-            formIsValid = false;
-            errors["firstname"] = "* First name cannot be empty!";
-        }
+    //     // First name
+    //     if (!fields["firstname"]) {
+    //         formIsValid = false;
+    //         errors["firstname"] = "* First name cannot be empty!";
+    //     }
     
-        if (typeof fields["firstname"] !== "undefined") {
-            if (!fields["firstname"].match(/^[a-zA-Z]+$/)) {
-            formIsValid = false;
-            errors["firstname"] = "* Only letters!";
-            }
-        }
+    //     if (typeof fields["firstname"] !== "undefined") {
+    //         if (!fields["firstname"].match(/^[a-zA-Z]+$/)) {
+    //         formIsValid = false;
+    //         errors["firstname"] = "* Only letters!";
+    //         }
+    //     }
 
-        // Last name
-        if (!fields["lastname"]) {
-            formIsValid = false;
-            errors["lastname"] = "* Last name cannot be empty!";
-        }
+    //     // Last name
+    //     if (!fields["lastname"]) {
+    //         formIsValid = false;
+    //         errors["lastname"] = "* Last name cannot be empty!";
+    //     }
     
-        if (typeof fields["lastname"] !== "undefined") {
-            if (!fields["lastname"].match(/^[a-zA-Z]+$/)) {
-            formIsValid = false;
-            errors["lastname"] = "* Only letters!";
-            }
-        }
+    //     if (typeof fields["lastname"] !== "undefined") {
+    //         if (!fields["lastname"].match(/^[a-zA-Z]+$/)) {
+    //         formIsValid = false;
+    //         errors["lastname"] = "* Only letters!";
+    //         }
+    //     }
 
-        // Email
-        if (!fields["email"]) {
-            formIsValid = false;
-            errors["email"] = "* Email cannot be empty!";
-        }
+    //     // Email
+    //     if (!fields["email"]) {
+    //         formIsValid = false;
+    //         errors["email"] = "* Email cannot be empty!";
+    //     }
 
-        if (typeof fields["email"] !== "undefined") {
-            let lastAtPos = fields["email"].lastIndexOf("@");
-            let lastDotPos = fields["email"].lastIndexOf(".");
-            if (
-              !(
-                lastAtPos < lastDotPos &&
-                lastAtPos > 0 &&
-                fields["email"].indexOf("@@") === -1 &&
-                lastDotPos > 2 &&
-                fields["email"].length - lastDotPos > 2
-              )
-            ) {
-              formIsValid = false;
-              errors["email"] = "* Email is not valid!";
-            }
-        }
+    //     if (typeof fields["email"] !== "undefined") {
+    //         let lastAtPos = fields["email"].lastIndexOf("@");
+    //         let lastDotPos = fields["email"].lastIndexOf(".");
+    //         if (
+    //           !(
+    //             lastAtPos < lastDotPos &&
+    //             lastAtPos > 0 &&
+    //             fields["email"].indexOf("@@") === -1 &&
+    //             lastDotPos > 2 &&
+    //             fields["email"].length - lastDotPos > 2
+    //           )
+    //         ) {
+    //           formIsValid = false;
+    //           errors["email"] = "* Email is not valid!";
+    //         }
+    //     }
 
-        // Password
-        if (!fields["password"]) {
-            formIsValid = false;
-            errors["password"] = "* Password cannot be empty!";
-        }
+    //     // Password
+    //     if (!fields["password"]) {
+    //         formIsValid = false;
+    //         errors["password"] = "* Password cannot be empty!";
+    //     }
 
-        if (typeof fields["password"] !== "undefined") {
-            if(fields["password"].length < 6){
-                formIsValid = false;
-                errors["password"] = "* Password must be more than 6 characters!";
-            }
-        }
+    //     if (typeof fields["password"] !== "undefined") {
+    //         if(fields["password"].length < 6){
+    //             formIsValid = false;
+    //             errors["password"] = "* Password must be more than 6 characters!";
+    //         }
+    //     }
 
-        setErrors(errors)
-        return formIsValid
-    }
+    //     setErrors(errors)
+    //     return formIsValid
+    // }
 
     const hanldeSubmit = (e) => {
         e.preventDefault();
 
-        if(handleValidation()){
+        // if(handleValidation()){
             const api_url = process.env.REACT_APP_API_URL
             
             axios.post(api_url + 'register', {
                 companyId: process.env.REACT_APP_API_ID,
                 customer: data,
             }).then((response) => {
-                setToken(response.data.access_token)
-                sessionStorage.setItem('token', response.data.access_token)
-                history.push('/')
+                setErrors({})
+                // setToken(response.data.access_token)
+                // sessionStorage.setItem('token', response.data.access_token)
+                // history.push('/')
 
             }).catch((error) => {
                 console.log(error.response.data.errors)
+                setErrors(error.response.data.errors)
             })
-        }
+        // }
     }
 
     return (
@@ -119,7 +121,7 @@ function SignUp({setToken}) {
                                             <div className="input-item">
                                                 <label>First Name</label>
                                                 <input type="text" name="firstname" placeholder="First Name" onChange={handleChange} />
-                                                <span style={{ color: "red" }}>{ errors['firstname'] }</span>
+                                                <span style={{ color: "red" }}>{ errors['customer.firstname'] }</span>
                                             </div>
                                         </div>
 
@@ -127,7 +129,7 @@ function SignUp({setToken}) {
                                             <div className="input-item">
                                                 <label>Last Name</label>
                                                 <input type="text" name="lastname" placeholder="Last Name" onChange={handleChange}/>
-                                                <span style={{ color: "red" }}>{ errors['lastname'] }</span>
+                                                <span style={{ color: "red" }}>{ errors['customer.lastname'] }</span>
                                             </div>
                                         </div>
 
@@ -135,7 +137,7 @@ function SignUp({setToken}) {
                                             <div className="input-item">
                                                 <label>Email</label>
                                                 <input type="email" name="email" placeholder="Email Address" onChange={handleChange}/>
-                                                <span style={{ color: "red" }}>{ errors['email'] }</span>
+                                                <span style={{ color: "red" }}>{ errors['customer.email'] }</span>
                                             </div>
                                         </div>
 
@@ -143,7 +145,7 @@ function SignUp({setToken}) {
                                             <div className="input-item">
                                                 <label>Password</label>
                                                 <input type="password" name="password" placeholder="Password" onChange={handleChange}/>
-                                                <span style={{ color: "red" }}>{ errors['password'] }</span>
+                                                <span style={{ color: "red" }}>{ errors['customer.password'] }</span>
                                             </div>
                                         </div>
                                     </div>
