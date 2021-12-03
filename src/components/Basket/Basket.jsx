@@ -15,7 +15,7 @@ function Basket({cartItems, itemsPrice}) {
                     <i className="fas fa-shopping-basket"></i>
                     <span>{cartItems.length} { cartItems.length > 1 ? 'Items' : 'Item' }</span>
                 </div>
-                <div className="total-price">${itemsPrice}</div>
+                <div className="total-price">${itemsPrice.toFixed(2)}</div>
             </div>
         </a>
     )
