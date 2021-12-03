@@ -32,7 +32,7 @@ import axios from 'axios';
 import Profile from "./components/Pages/Profile/Profile";
 
 
-const cartFromLocalStorage = JSON.parse(localStorage.getItem('cart')) ? JSON.parse(localStorage.getItem('cart')) : {};
+const cartFromLocalStorage = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
 const tokenFromSessionStorage = sessionStorage.getItem('token') ? sessionStorage.getItem('token') : "";
 
 function App() {
@@ -53,6 +53,7 @@ function App() {
 
   const [cartItems, setCartItems] = useState(cartFromLocalStorage);
   const itemsPrice = cartItems.reduce((a, c) => a + c.qty * c.price, 0);
+  
   const itemsSavingPrice =
     cartItems.reduce((a, c) => a + c.qty * c.origin_price, 0) - itemsPrice;
 

@@ -57,7 +57,7 @@ function SidebarCart({ cartItems, itemsPrice, itemsSavingPrice, addToCart, remov
                     <div className="cart-total">
                         <p className="saving d-flex justify-content-between">
                             <span>Total Savings</span> 
-                            <span>${itemsSavingPrice > 0 ? itemsSavingPrice : 0}</span>
+                            <span>${itemsSavingPrice > 0 ? itemsSavingPrice.toFixed(2) : 0}</span>
                         </p>
                         <p className="total-price d-flex justify-content-between">
                             <span>Total</span> 
