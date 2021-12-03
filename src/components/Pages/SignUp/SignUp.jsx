@@ -1,8 +1,10 @@
 import axios from 'axios';
 import React from 'react'
-import { useState } from 'react/cjs/react.development'
+import { useState } from 'react'
+import { useHistory } from "react-router-dom";
 
-function SignUp() {
+function SignUp({setToken}) {
+    const history = useHistory();
     const [data, setData] = useState({});
     const [errors, setErrors] = useState({});
 
@@ -95,9 +97,10 @@ function SignUp() {
                 companyId: process.env.REACT_APP_API_ID,
                 customer: data,
             }).then((response) => {
-                
+                setToken(response.data.access_token)
+                sessionStorage.setItem('token', response.data.access_token)
+                history.push('/')
 
-                console.log(response.data)
             }).catch((error) => {
                 console.log(error.response.data.errors)
             })

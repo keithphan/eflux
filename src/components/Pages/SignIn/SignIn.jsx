@@ -1,8 +1,10 @@
 import axios from 'axios';
 import React, { useState } from 'react'
 import {Link} from 'react-router-dom'
+import { useHistory } from "react-router-dom";
 
-function SignIn() {
+function SignIn({ setToken }) {
+    const history = useHistory();
     const [data, setData] = useState({});
     const [errors, setErrors] = useState({});
 
@@ -73,8 +75,9 @@ function SignIn() {
                     document.getElementById('loginMessage').innerHTML = response.data.message
                     setErrors(response.data.message)
                 }else{
+                    setToken(response.data.access_token)
                     sessionStorage.setItem('token', response.data.access_token)
-                    window.location.href = "/";
+                    history.push("/")
                 }
             })
         }

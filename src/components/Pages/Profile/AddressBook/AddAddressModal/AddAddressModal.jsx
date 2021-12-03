@@ -7,7 +7,7 @@ function AddAddressModal({setAddresses, token}) {
         address: "",
         suburb: "",
         zip: "",
-        state: "",
+        state: "New South Wales",
         country: "",
     });
     const [errors, setErrors] = useState({});
@@ -39,16 +39,17 @@ function AddAddressModal({setAddresses, token}) {
                 'Authorization': `Bearer ${token}`
             }
         }).then((response) => {
-            setErrors({})
             setAddresses(response.data)
             setAddress({
                 name: "",
                 address: "",
                 suburb: "",
                 zip: "",
-                state: "",
+                state: "New South Wales",
                 country: "",
             })
+            setErrors({})
+            alert('Added successfully')
         }).catch((error) => {
             setErrors(error.response.data.errors)
         })
@@ -101,7 +102,7 @@ function AddAddressModal({setAddresses, token}) {
                             </div>
                             
                             <div>
-                                <button onClick={handleSubmit} data-dismiss="modal" className="submit">Save</button>
+                                <button onClick={handleSubmit} className="submit">Save</button>
                                 <button data-dismiss="modal" className="cancel">Cancel</button>
                             </div>
                         </form>

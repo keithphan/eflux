@@ -21,7 +21,7 @@ function AddressBook({ addresses, setAddresses, token }) {
                         <h3 className="title">Address Book</h3>
                         <ul className="address-list">
                             {
-                                addresses.addresses ?
+                                addresses && addresses.addresses ?
                                 addresses.addresses.map((address, index) => {
                                     return (
                                         <Address 

@@ -180,7 +180,7 @@ function App() {
                 {token ?
                   <Redirect to='/' />
                 :
-                  <SignIn />
+                  <SignIn setToken={setToken}/>
                 }
                 
               </Route>
@@ -189,7 +189,7 @@ function App() {
                 {token ?
                   <Redirect to='/' />
                 :
-                  <SignUp />
+                  <SignUp setToken={setToken}/>
                 }
               </Route>
 
