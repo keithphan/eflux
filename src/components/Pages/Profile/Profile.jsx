@@ -1,6 +1,5 @@
 import axios from 'axios'
-import React, { useState } from 'react'
-import { useEffect } from 'react/cjs/react.development'
+import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Redirect } from "react-router";
 import LeftSide from './LeftSide/LeftSide'
