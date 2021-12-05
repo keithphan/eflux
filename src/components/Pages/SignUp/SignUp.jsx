@@ -98,9 +98,9 @@ function SignUp({setToken}) {
                 customer: data,
             }).then((response) => {
                 setErrors({})
-                // setToken(response.data.access_token)
-                // sessionStorage.setItem('token', response.data.access_token)
-                // history.push('/')
+                setToken(response.data.access_token)
+                sessionStorage.setItem('token', response.data.access_token)
+                history.push('/')
 
             }).catch((error) => {
                 console.log(error.response.data.errors)

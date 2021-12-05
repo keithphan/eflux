@@ -11,7 +11,6 @@ import MobileFooter from "./components/MobileFooter/MobileFooter";
 import MenuModal from "./components/MenuModal/MenuModal";
 import SearchModal from "./components/SearchModal/SearchModal";
 import NotFound from "./components/Errors/NotFound/NotFound";
-import CartEmpty from "./components/Errors/CartEmpty/CartEmpty";
 import Footer from "./components/Footer/Footer";
 import SignIn from "./components/Pages/SignIn/SignIn";
 import SignUp from "./components/Pages/SignUp/SignUp";
@@ -222,11 +221,8 @@ function App() {
                   itemsPrice={itemsPrice}
                   itemsSavingPrice={itemsSavingPrice}
                   setSelectedProduct={setSelectedProduct}
+                  token={token}
                 />
-              </Route>
-
-              <Route path="/emptycart">
-                <CartEmpty cartItems={cartItems}/>
               </Route>
 
               <Route path="/about">

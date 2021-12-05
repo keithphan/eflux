@@ -1,12 +1,16 @@
 import React, {useEffect} from 'react'
 import CartProduct from './CartProduct/CartProduct'
-import { Redirect } from 'react-router';
+import { Link, useHistory } from "react-router-dom";
 
-function CheckOut({cartItems, setSelectedProduct, addToCart, removeFromCart, updateCart, itemsPrice, itemsSavingPrice}) {
+function CheckOut({cartItems, setSelectedProduct, addToCart, removeFromCart, updateCart, itemsPrice, itemsSavingPrice, token}) {
+    const history = useHistory();
 
     useEffect(() => {
-        // window.customSelect();
-    })
+        if(!token){
+            history.push('/signin')
+        }
+    }, [token, history])
+    
     return (
         <>
         {cartItems.length > 0 ? 
@@ -14,7 +18,7 @@ function CheckOut({cartItems, setSelectedProduct, addToCart, removeFromCart, upd
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-7">
-                            <div className="form-item contact-number-item bg-color-white box-shadow p-3 p-lg-5 border-radius5">
+                            {/* <div className="form-item contact-number-item bg-color-white box-shadow p-3 p-lg-5 border-radius5">
                                 <h6>Contact Number</h6>
                                 <p>We need your phone number so we can inform you about any delay or problem.<br/>5 digits code send your phone <strong>+111223366548</strong></p>
                                 <div className="mb-2">
@@ -38,7 +42,7 @@ function CheckOut({cartItems, setSelectedProduct, addToCart, removeFromCart, upd
                                         </div>
                                     </form>
                                 </div>
-                            </div>
+                            </div> */}
 
                             <div className="form-item billing-item bg-color-white box-shadow p-3 p-lg-5 border-radius5">
                                 <h6>User Accounts</h6>
@@ -196,7 +200,13 @@ function CheckOut({cartItems, setSelectedProduct, addToCart, removeFromCart, upd
                 </div>
             </section>
         : 
-            <Redirect to="/emptycart" />
+        <section className="error-page text-center">
+            <div className="container">
+                <h3>Empty Cart</h3>
+                <p>It looks like nothing in your cart.</p>
+                <Link to="/" className="backhome">Back Home</Link>
+            </div>
+        </section>
         }
         </>
     )

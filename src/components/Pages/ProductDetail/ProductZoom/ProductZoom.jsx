@@ -127,7 +127,7 @@ function ProductZoom({ product, cartItem, addToCart, removeFromCart, updateCart 
                                 <h2>{ product.title }</h2>
                                 <p className="quantity">{ product.weight }</p>
                                 <h3 className="price">${ product.price } <del>${ product.origin_price }</del></h3>
-                                <p>{product.description}</p>
+                                <p>{product.short_description}</p>
                                 
                                 <div className="d-flex justify-content-end">
                                     

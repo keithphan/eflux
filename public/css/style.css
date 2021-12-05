@@ -7133,3 +7133,16 @@ input[type=number] {
   border: 1px solid #f3f3f3;
   border-radius: 3px;
 }
+
+#product_details table, #product_details th, #product_details td{
+  border: 1px solid #dddddd;
+  padding: 10px 0;
+}
+
+#product_details table {
+  width: 100%;
+}
+
+#product_details table th, #product_details table td{
+  text-align: center;
+}
